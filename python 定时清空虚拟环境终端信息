@@ -1,0 +1,19 @@
+
+scheduler_screen = None #创建一个储存定时任务对象
+# 创建一个定时器方法
+def start_screen():
+    global scheduler_screen
+    if scheduler_screen is not None:
+        scheduler_screen.shutdown()  # 停止原来的定时任务
+    scheduler_screen = BackgroundScheduler()
+    # 在这里设置定时任务，每天的20点执行一次clear_screen方法
+    scheduler_screen.add_job(clear_screen, 'cron', hour=23, misfire_grace_time=3)
+    scheduler_screen.start()
+
+
+
+# region 清理终端信息
+def clear_screen():
+    os.system("cls" if os.name == "nt" else "clear")
+
+# endregion
